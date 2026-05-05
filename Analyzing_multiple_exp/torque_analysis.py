@@ -3,20 +3,28 @@ import pandas as pd
 import numpy as np
 
 
-FILES = [
+# FILES = [
    
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_joints_20260320_125855.csv", "exp_name": "Adj_front_8kg", "start": 500, "end": 10500},
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_joints_20260320_132519.csv", "exp_name": "Adj_center_8kg", "start": 2000, "end": 10700},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_joints_20260320_125855.csv", "exp_name": "Adj_front_8kg", "start": 500, "end": 10500},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_joints_20260320_132519.csv", "exp_name": "Adj_center_8kg", "start": 2000, "end": 10700},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_center/double_tier_center_8kg_NPA_loop3_joints_20260320_162856.csv", "exp_name": "Stack_center_8kg", "start": 1500, "end": 10000},
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_front/double_tier_front_8kg_NPA_loop3_joints_20260320_151917.csv", "exp_name": "Stack_front_8kg", "start": 2000, "end": 12000},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_center/double_tier_center_8kg_NPA_loop3_joints_20260320_162856.csv", "exp_name": "Stack_center_8kg", "start": 1500, "end": 10000},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_front/double_tier_front_8kg_NPA_loop3_joints_20260320_151917.csv", "exp_name": "Stack_front_8kg", "start": 2000, "end": 12000},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/front_rear/single_tier_front_rear_8kg_NPA_loop3_joints_20260320_143151.csv", "exp_name": "front_rear_8kg", "start": 1600, "end": 10600},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/front_rear/single_tier_front_rear_8kg_NPA_loop3_joints_20260320_143151.csv", "exp_name": "front_rear_8kg", "start": 1600, "end": 10600},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_centercrate_m_8kg/exp1/flat_centercrate_m_8kg_exp1_joints.csv", "exp_name": "center_crate_8kg", "start": 2000, "end": 10500},
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_frontcrate_m_8kg/exp1/flat_frontcrate_m_8kg_exp1_joints.csv", "exp_name": "front_crate_8kg", "start": 1500, "end": 11000},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_centercrate_m_8kg/exp1/flat_centercrate_m_8kg_exp1_joints.csv", "exp_name": "center_crate_8kg", "start": 2000, "end": 10500},
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_frontcrate_m_8kg/exp1/flat_frontcrate_m_8kg_exp1_joints.csv", "exp_name": "front_crate_8kg", "start": 1500, "end": 11000},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline", "start": 11240, "end": 19700}, 
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline", "start": 11240, "end": 19700}, 
+# ]
+
+FILES = [
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8.}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_PA/incline_flat_12kg_adj_center_PA_joints_20260426_160040.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12.}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_PA/incline_flat_14kg_adj_center_PA_joints_20260426_171228.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14.}, 
+
 ]
 
 DOWN_SAMPLE    = 10       # joints data is already at lower frequency than IMU
@@ -55,10 +63,7 @@ def detect_gait_cycles(contact_series, stance_value=STANCE_VALUE):
 
 
 def extract_peak_torques(df, cycle_boundaries, torque_cols=TORQUE_COLS):
-    """
-    For each gait cycle segment return peak absolute torque per joint.
-    Returns dict: {col: [peak_cycle0, peak_cycle1, ...]}
-    """
+   
     peaks = {col: [] for col in torque_cols}
     for i in range(len(cycle_boundaries) - 1):
         start, end = cycle_boundaries[i], cycle_boundaries[i + 1]
@@ -69,9 +74,11 @@ def extract_peak_torques(df, cycle_boundaries, torque_cols=TORQUE_COLS):
 
 
 def mean_peak_torque(peaks):
-    """Mean peak torque over all gait cycles, per joint."""
+    
     return {col: np.mean(vals) for col, vals in peaks.items()}
 
+def rms_peak_torque(peaks):
+    return {col: np.sqrt(np.mean(np.square(val))) for col, val in peaks.items()}
 
 def verify_cycles_detected(df, cycle_boundaries, exp_name):
     joint_torque_FL_Knee = df[f"{REFERENCE_FOOT}.kn_load"].values
@@ -96,7 +103,11 @@ def verify_cycles_detected(df, cycle_boundaries, exp_name):
 
 results = []
 for file in FILES:
-    df = load_and_downsample(file["data_file"], DOWN_SAMPLE, start=file.get("start"), end=file.get("end"))
+    if "start" in file:
+        df = load_and_downsample(file["data_file"], DOWN_SAMPLE, start=file.get("start"), end=file.get("end"))
+    else:
+        df = load_and_downsample(file["data_file"], DOWN_SAMPLE, start=None, end=None)
+
 
     contact_col = f"contact_{REFERENCE_FOOT}"
     cycle_boundaries = detect_gait_cycles(df[contact_col])
@@ -105,7 +116,8 @@ for file in FILES:
 
     peaks = extract_peak_torques(df, cycle_boundaries)
     # verify_cycles_detected(df, cycle_boundaries, file["exp_name"])
-    mpt   = mean_peak_torque(peaks)
+    # mpt   = mean_peak_torque(peaks)
+    rms_pt = rms_peak_torque(peaks)
     # calculation for my new defined metric balance_score sigma/mean for all 4 knee joint mean torque
     # mean_for_knee_joint_torques = [vals for col, vals in mpt.items() if "kn" in col]
     # mean = np.mean(mean_for_knee_joint_torques)
@@ -113,9 +125,9 @@ for file in FILES:
     # balance_score = (std / mean) * 100
 
     results.append({
-        "name":     file["exp_name"],
-        "peaks":    peaks,
-        "mpt":      mpt,
+        "name": file["exp_name"],
+        "peaks": peaks,
+        "rms_pt": rms_pt,
         "n_cycles": n_cycles,
         # "balance_score": balance_score,
     })
@@ -143,27 +155,27 @@ for file in FILES:
 
 # --- plot 2: mean peak torque comparison across experiments ------------------
 
-# if len(results) > 1:
-#     exp_names = [r["name"] for r in results]
-#     n_exp = len(exp_names)
-#     x = np.arange(n_exp)
-#     width = 0.06
-#     n_cols = len(TORQUE_COLS)
+if len(results) > 1:
+    exp_names = [r["name"] for r in results]
+    n_exp = len(exp_names)
+    x = np.arange(n_exp)
+    width = 0.06
+    n_cols = len(TORQUE_COLS)
 
-#     fig, ax = plt.subplots(figsize=(14, 6))
-#     for i, col in enumerate(TORQUE_COLS):
-#         mpt_values = [r["mpt"][col] for r in results]
-#         offset = (i - n_cols / 2) * width
-#         ax.bar(x + offset, mpt_values, width, label=col)
+    fig, ax = plt.subplots(figsize=(14, 6))
+    for i, col in enumerate(TORQUE_COLS):
+        rms_pt_values = [r["rms_pt"][col] for r in results]
+        offset = (i - n_cols / 2) * width
+        ax.bar(x + offset, rms_pt_values, width, label=col)
 
-#     ax.set_xticks(x)
-#     ax.set_xticklabels(exp_names, rotation=15, ha='right')
-#     ax.set_ylabel("Mean Peak Torque (Nm)")
-#     ax.set_title("Mean Peak Torque Comparison Across Experiments")
-#     ax.legend(ncol=3, fontsize=8)
-#     plt.tight_layout()
+    ax.set_xticks(x)
+    ax.set_xticklabels(exp_names, rotation=15, ha='right')
+    ax.set_ylabel("RMS Peak Torque (Nm)")
+    ax.set_title("RMS Peak Torque Comparison Across Experiments")
+    ax.legend(ncol=3, fontsize=8)
+    plt.tight_layout()
 
-# --- plot 3: Diverging bar chart for torque comparision with baseline
+# --- plot 3: Diverging bar chart for torque comparision with baseline for each joint
 
 # if len(results) > 1:
 #     exp_names = [r["name"] for r in results]
@@ -204,6 +216,6 @@ for file in FILES:
 # print("\nMean Peak Torque (Nm)")
 # print(summary_df.to_string())
 
-# plt.show()
+plt.show()
 
-print(TORQUE_COLS)
+# print(TORQUE_COLS)

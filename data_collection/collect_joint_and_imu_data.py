@@ -15,7 +15,7 @@ Data is written incrementally (flushed every 100 joint samples) to prevent
 data loss if the script is interrupted.
 
 Usage:
-    python3 collect_joint_and_imu_data.py 192.168.80.3 --experiment_name baseline_loop3 --output_dir /home/nerve/Desktop/data_collected/flat_Mar_20
+    python3 collect_joint_and_imu_data.py 192.168.80.3 --experiment_name incline_flat_stack_center_8kg_NPA --output_dir /home/nerve/Desktop/data_collected/incline_flat_Apr_27
 
 
 The script will:
@@ -107,7 +107,11 @@ def main():
 
     try:
         while True:
-            mission_state = mission_client.get_state()
+            try:
+                mission_state = mission_client.get_state()
+            except bosdyn.client.exceptions.RetryableUnavailableError:
+                time.sleep(1.0)
+                continue
             if mission_state.status != mission_pb2.State.STATUS_RUNNING:
                 time.sleep(0.5)
                 continue
@@ -145,69 +149,74 @@ def main():
                 joint_writer.writerow(JOINT_CSV_HEADER)
                 imu_writer.writerow(IMU_CSV_HEADER)
 
-                try:
-                    for state in robot_state_streaming_client.get_robot_state_stream():
+                while not stop_recording.is_set():
+                    try:
+                        for state in robot_state_streaming_client.get_robot_state_stream():
+                            if stop_recording.is_set():
+                                break
+
+                            # now = time.time()
+                            # if start_time is None:
+                            #     start_time = now
+
+                            # elapsed = now - start_time
+
+                            # --- Joint row (~333 Hz) ---
+                            positions  = list(state.joint_states.position)
+                            velocities = list(state.joint_states.velocity)
+                            loads      = list(state.joint_states.load)
+
+                            kin = state.kinematic_state
+                            pos  = kin.vision_tform_body.position
+                            rot  = kin.vision_tform_body.rotation
+                            vlin = kin.velocity_of_body_in_vision.linear
+                            vang = kin.velocity_of_body_in_vision.angular
+
+                            # row = [f'{now:.9f}', f'{elapsed:.6f}']
+                            row = [f'{v:.6f}' for v in positions]
+                            row += [f'{v:.6f}' for v in velocities]
+                            row += [f'{v:.6f}' for v in loads]
+                            row += [f'{pos.x:.6f}',  f'{pos.y:.6f}',  f'{pos.z:.6f}']
+                            row += [f'{rot.x:.6f}',  f'{rot.y:.6f}',  f'{rot.z:.6f}',  f'{rot.w:.6f}']
+                            row += [f'{vlin.x:.6f}', f'{vlin.y:.6f}', f'{vlin.z:.6f}']
+                            row += [f'{vang.x:.6f}', f'{vang.y:.6f}', f'{vang.z:.6f}']
+                            row += [int(c) for c in state.contact_states]
+                            joint_writer.writerow(row)
+                            joint_count += 1
+
+                            # --- IMU rows (~1000 Hz, 3 packets per message) ---
+                            for packet in state.inertial_state.packets:
+                                # t = packet.timestamp.seconds + packet.timestamp.nanos * 1e-9
+                                # elapsed_imu = t
+                                acc  = packet.acceleration_rt_odom_in_link_frame
+                                gyro = packet.angular_velocity_rt_odom_in_link_frame
+                                quat = packet.odom_rot_link
+
+                                imu_row = [
+                                    # f'{t:.9f}',
+                                    f'{acc.x:.6f}',  f'{acc.y:.6f}',  f'{acc.z:.6f}',
+                                    f'{gyro.x:.6f}', f'{gyro.y:.6f}', f'{gyro.z:.6f}',
+                                    f'{quat.x:.6f}', f'{quat.y:.6f}', f'{quat.z:.6f}', f'{quat.w:.6f}',
+                                ]
+                                imu_writer.writerow(imu_row)
+                                imu_count += 1
+
+                            # Flush every 100 joint samples (~0.3 s)
+                            if joint_count % 1000 == 0:
+                                jf.flush()
+                                imuf.flush()
+                                # print(f'{joint_count} joint samples | {imu_count} IMU samples collected...')
+
+                    except Exception as e:
                         if stop_recording.is_set():
                             break
-
-                        # now = time.time()
-                        # if start_time is None:
-                        #     start_time = now
-
-                        # elapsed = now - start_time
-
-                        # --- Joint row (~333 Hz) ---
-                        positions  = list(state.joint_states.position)
-                        velocities = list(state.joint_states.velocity)
-                        loads      = list(state.joint_states.load)
-
-                        kin = state.kinematic_state
-                        pos  = kin.vision_tform_body.position
-                        rot  = kin.vision_tform_body.rotation
-                        vlin = kin.velocity_of_body_in_vision.linear
-                        vang = kin.velocity_of_body_in_vision.angular
-
-                        # row = [f'{now:.9f}', f'{elapsed:.6f}']
-                        row = [f'{v:.6f}' for v in positions]
-                        row += [f'{v:.6f}' for v in velocities]
-                        row += [f'{v:.6f}' for v in loads]
-                        row += [f'{pos.x:.6f}',  f'{pos.y:.6f}',  f'{pos.z:.6f}']
-                        row += [f'{rot.x:.6f}',  f'{rot.y:.6f}',  f'{rot.z:.6f}',  f'{rot.w:.6f}']
-                        row += [f'{vlin.x:.6f}', f'{vlin.y:.6f}', f'{vlin.z:.6f}']
-                        row += [f'{vang.x:.6f}', f'{vang.y:.6f}', f'{vang.z:.6f}']
-                        row += [int(c) for c in state.contact_states]
-                        joint_writer.writerow(row)
-                        joint_count += 1
-
-                        # --- IMU rows (~1000 Hz, 3 packets per message) ---
-                        for packet in state.inertial_state.packets:
-                            # t = packet.timestamp.seconds + packet.timestamp.nanos * 1e-9
-                            # elapsed_imu = t
-                            acc  = packet.acceleration_rt_odom_in_link_frame
-                            gyro = packet.angular_velocity_rt_odom_in_link_frame
-                            quat = packet.odom_rot_link
-
-                            imu_row = [
-                                # f'{t:.9f}',
-                                f'{acc.x:.6f}',  f'{acc.y:.6f}',  f'{acc.z:.6f}',
-                                f'{gyro.x:.6f}', f'{gyro.y:.6f}', f'{gyro.z:.6f}',
-                                f'{quat.x:.6f}', f'{quat.y:.6f}', f'{quat.z:.6f}', f'{quat.w:.6f}',
-                            ]
-                            imu_writer.writerow(imu_row)
-                            imu_count += 1
-
-                        # Flush every 100 joint samples (~0.3 s)
-                        if joint_count % 1000 == 0:
-                            jf.flush()
-                            imuf.flush()
-                            # print(f'{joint_count} joint samples | {imu_count} IMU samples collected...')
-
-                except Exception as e:
-                    print(f'Stream error: {e}')
+                        print(f'Stream error (reconnecting): {e}')
+                        time.sleep(0.5)
 
             print(f'Autowalk ended!')
             print(f'  Joint samples : {joint_count}  → {joints_file}')
             print(f'  IMU samples   : {imu_count}   → {imu_file}')
+            break
 
     except KeyboardInterrupt:
         print('\nStopped.')

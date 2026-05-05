@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
-DATA_FILE = "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv"
+DATA_FILE = "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_NPA/incline_flat_8kg_stack_center_crate_NPA_joints_20260413_155829.csv"
 DATA_FILE_IMU = ""
 df = pd.read_csv(DATA_FILE)
 df_size = df["vel_of_body_in_vision_lin_x"].size

@@ -22,7 +22,7 @@ T = fs * down_sampled_df_size   # 1 second of data
 t = np.linspace(0, T, fs, endpoint=False)
 
 # IMU data: 
-accel_data = down_sampled_df["acc_z"]
+accel_data = down_sampled_df["gyro_z"]
 
 # 3. Perform the FFT
 # This converts the signal from the "Time Domain" to the "Frequency Domain"
