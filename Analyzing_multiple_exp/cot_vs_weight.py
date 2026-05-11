@@ -5,17 +5,17 @@ import numpy as np
 
 FILES_NPA = [
     {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8.}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_NPA/incline_flat_12kg_adj_center_NPA_joints_20260426_155231.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12.}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_NPA/incline_flat_14kg_adj_center_NPA_joints_20260426_171621.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14.}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8. + 5.6}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_NPA/incline_flat_12kg_adj_center_NPA_joints_20260426_155231.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12. + 5.6}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_NPA/incline_flat_14kg_adj_center_NPA_joints_20260426_171621.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14. + 5.6}, 
 ]
 
 FILES_PA = [
     {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8.}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_PA/incline_flat_12kg_adj_center_PA_joints_20260426_160040.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12.}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_PA/incline_flat_14kg_adj_center_PA_joints_20260426_171228.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14.}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_16kg_PA/incline_flat_center_crate_16kg_PA_joints_20260428_123328.csv", "exp_name": "Adjacent_center_16kg", "mass": 33.8 + 16.}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8. + 5.6}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_PA/incline_flat_12kg_adj_center_PA_joints_20260426_160040.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12. + 5.6}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_PA/incline_flat_14kg_adj_center_PA_joints_20260426_171228.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14. + 5.6}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_16kg_PA/incline_flat_center_crate_16kg_PA_joints_20260428_123328.csv", "exp_name": "Adjacent_center_16kg", "mass": 33.8 + 16. + 5.6}, 
 ]
 
 LEGS   = ["fl", "fr", "hl", "hr"]
@@ -76,15 +76,15 @@ if __name__ == "__main__":
         results_PA.append({
             "name": file["exp_name"],
             "mech_energy": total_energy,
-            "cot": round(cot_energy, 2),
+            "cot": round(cot_energy, 3),
             "payload": file["mass"],
             "velocity": avg_velocity,
             "distance": total_distance
         })
 
     # --- plot CoT vs payload (NPA vs PA)
-    payload_weight_NPA = [result["payload"]-33.8 for result in results_NPA]
-    payload_weight_PA  = [result["payload"]-33.8 for result in results_PA]
+    payload_weight_NPA = [result["payload"]-33.8-5.6 for result in results_NPA]
+    payload_weight_PA  = [result["payload"]-33.8-5.6 for result in results_PA]
 
     CoT_PA  = [result["cot"] for result in results_PA]
     CoT_NPA = [result["cot"] for result in results_NPA]
@@ -95,40 +95,35 @@ if __name__ == "__main__":
     energy_NPA = [result["mech_energy"] for result in results_NPA]
     energy_PA = [result["mech_energy"] for result in results_PA]
     
-    fig, axe = plt.subplots(3, 1)
-    axe[0].plot(payload_weight_NPA, CoT_NPA, "-o" ,label="Not Payload Aware")
-    axe[0].plot(payload_weight_PA,  CoT_PA, "-o", label="Payload Aware")
-
-    axe[0].set_xlabel("Payload Weight (kg)")
+    fig, axe = plt.subplots(2, 1, figsize=(10, 6))
+    axe[0].plot(payload_weight_NPA, CoT_NPA, "-o",color="black",label="Not Payload Aware")
+    axe[0].plot(payload_weight_PA,  CoT_PA, "--o",color="black", label="Payload Aware")
     axe[0].set_ylabel("Cost of Transport")
-    axe[0].legend()
-
-    # velocity graph
-    axe[1].plot(payload_weight_NPA, vel_NPA, "-o", label="Not Payload Aware")
-    axe[1].plot(payload_weight_PA, vel_PA, "-o", label="Payload Aware")
-    axe[1].set_ylabel("Average Velocity")
-    axe[1].legend()
 
     # Energy graph
 
-    axe[2].plot(payload_weight_NPA, energy_NPA, "-o", label="Not Payload Aware")
-    axe[2].plot(payload_weight_PA, energy_PA, "-o", label="Payload Aware")
-    axe[2].set_ylabel("Mechanical Energy")
-    axe[2].legend()
+    axe[1].plot(payload_weight_NPA, energy_NPA, "-o", color="black", label="Not Payload Aware")
+    axe[1].plot(payload_weight_PA, energy_PA, "--o", color="black", label="Payload Aware")
+    axe[1].set_ylabel("Mechanical Energy")
+
+    fig.legend(*axe[0].get_legend_handles_labels(), loc="upper right",
+               bbox_to_anchor=(0.98, 0.90), borderpad=0.8)
     
     axe[0].grid(True)
     axe[1].grid(True)
-    axe[2].grid(True)
 
     axe[0].set_xticks(payload_weight_PA)
     axe[1].set_xticks(payload_weight_PA)
-    axe[2].set_xticks(payload_weight_PA)
-    
-    fig.suptitle("Adjacent Payload Distribution, Incline Flat")
+    axe[0].tick_params(labelbottom=False)
+
+    fig.supxlabel("Payload Weight (kg)")
+
+    # fig.suptitle("Adjacent Payload Distribution, Incline Flat")
+    fig.text(0.1, 0.90, r"$CoT = \frac{Mechanical\ Energy}{Weight \times Distance\ Covered}$",
+             ha="left", va="top", fontsize=14)
+    plt.tight_layout()
+    plt.savefig("cot_vs_weight.png", dpi=300, bbox_inches='tight')
     plt.show()
-
-
-    # --- distance plot ---
     
 
     

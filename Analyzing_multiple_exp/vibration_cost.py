@@ -1,25 +1,54 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+from cost_of_transport import parse_distribution
 
 BASELINE_FILE = "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv"
 
+# FILES = [
+#     # All NPA
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline"},
+
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_joints_20260413_140451.csv", "exp_name": "Front Crate NPA"},
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_joints_20260413_142042.csv", "exp_name": "Center Crate NPA"},
+
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/rear_crate_NPA/incline_flat_8kg_rear_crate_NPA_joints_20260413_142659.csv", "exp_name": "Rear Crate NPA"},
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_joints_20260413_152852.csv", "exp_name": "Stack Front NPA"},
+
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_NPA/incline_flat_stack_center_8kg_NPA_joints_20260428_132539.csv", "exp_name": "Stack Center NPA"},
+
+#     # All PA
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_joints_20260413_150510.csv", "exp_name": "Front Crate PA"},
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_joints_20260413_144946.csv", "exp_name": "Center Crate PA"},
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_joints_20260413_153830.csv", "exp_name": "Stack Front PA"},
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_PA/incline_flat_stack_center_8kg_PA_joints_20260428_131820.csv", "exp_name": "Stack Center PA"},
+# ]
+
+# INCLINE FLAT TERRAIN  EXPERIMENTS
+
 FILES = [
     # All NPA
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline"},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8},
 
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_joints_20260413_140451.csv", "exp_name": "Front Crate NPA"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_joints_20260413_142042.csv", "exp_name": "Center Crate NPA"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_joints_20260413_140451.csv", "exp_name": "Front Crate NPA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "NPA", "position": "front"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_joints_20260413_142042.csv", "exp_name": "Center Crate NPA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "NPA", "position": "center"},
 
     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/rear_crate_NPA/incline_flat_8kg_rear_crate_NPA_joints_20260413_142659.csv", "exp_name": "Rear Crate NPA"},
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_joints_20260413_152852.csv", "exp_name": "Stack Front NPA"},
+    
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_joints_20260413_152852.csv", "exp_name": "Stack Front NPA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "NPA", "position": "front"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_NPA/incline_flat_stack_center_8kg_NPA_joints_20260428_132539.csv", "exp_name": "Stack Center NPA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "NPA", "position": "center"},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_NPA/incline_flat_stack_center_8kg_NPA_joints_20260428_132539.csv", "exp_name": "Stack Center NPA"},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent Center NPA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "NPA", "position": "center"},
 
     # All PA
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_joints_20260413_150510.csv", "exp_name": "Front Crate PA"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_joints_20260413_144946.csv", "exp_name": "Center Crate PA"},
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_joints_20260413_153830.csv", "exp_name": "Stack Front PA"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_PA/incline_flat_stack_center_8kg_PA_joints_20260428_131820.csv", "exp_name": "Stack Center PA"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_joints_20260413_150510.csv", "exp_name": "Front Crate PA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "PA", "position": "front"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_joints_20260413_144946.csv", "exp_name": "Center Crate PA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "PA", "position": "center"},
+
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_joints_20260413_153830.csv", "exp_name": "Stack Front PA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "PA" , "position": "front"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_PA/incline_flat_stack_center_8kg_PA_joints_20260428_131820.csv", "exp_name": "Stack Center PA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "PA", "position": "center"},
+
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent Center PA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "PA", "position": "center"},
 ]
 
 LEGS   = ["fl", "fr", "hl", "hr"]
@@ -33,11 +62,13 @@ def find_limits():
     limits = []
     for col in JOINT_POS_COLS:
         positions = df[col].to_numpy()
+        # print("min: ", np.min(positions), " max: ", np.max(positions))
         limits.append({
             "joint_col_name": col,
-            "lower_limit": np.percentile(positions, 5),
-            "upper_limit": np.percentile(positions, 95),
+            "lower_limit": np.percentile(positions, 0),
+            "upper_limit": np.percentile(positions, 100),
         })
+    # print(limits)
     return limits
 
 
@@ -60,6 +91,51 @@ def compute_vibration_cost(df, limits):
     return total_cost / n_samples, total_cost / duration_s
 
 
+def distribution_vs_vibration(results):
+    series = {
+        "Front_NPA": {},
+        "Front_PA": {},
+        "Center_NPA": {},
+        "Center_PA": {}
+    }
+
+    dist_order = ["Standard", "Stack", "Adjacent"]
+    x_pos = {d: i for i, d in enumerate(dist_order)} # "Standard": 0, "Stack": 1, "Adjacent": 2
+ 
+    for result in results:
+        dist_type, position = parse_distribution(result["distribution"])
+
+        key = f"{position}_{result['control_mode']}"
+        if key in series:
+            series[key][dist_type] = result["vibration_cost_per_second"]
+
+    def _xy(key):
+        pts = series[key]
+        keys = sorted(pts, key=lambda d: x_pos[d])
+        return [x_pos[d] for d in keys], [pts[d] for d in keys] # returns x and y array for plot
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    ax.plot(*_xy("Front_NPA"),  "-o",  color="black",   label="Front_NPA")
+    ax.plot(*_xy("Front_PA"),   "--o", color="black",   label="Front_PA")
+    ax.plot(*_xy("Center_NPA"), "-s",  color="red", label="Center_NPA")
+    ax.plot(*_xy("Center_PA"),  "--s", color="red", label="Center_PA")
+
+    ax.set_xticks(range(len(dist_order)))
+    ax.set_xticklabels(dist_order)
+    ax.set_xlabel("Distribution")
+    ax.set_ylabel("Vibration Cost Per Second (rad/s)")
+    ax.legend()
+    ax.grid(True)
+
+    fig.suptitle("")
+    plt.tight_layout()
+    plt.savefig("vibration_cost.png", dpi=300, bbox_inches='tight')
+    plt.show()
+
+
+
+
 if __name__ == "__main__":
     limits = find_limits()
     results = []
@@ -72,11 +148,14 @@ if __name__ == "__main__":
 
         cost_per_sample, cost_per_second = compute_vibration_cost(df, limits)
         print(f"[{file['exp_name']}] Vibration Cost: {cost_per_sample:.4f} (per sample) | {cost_per_second:.4f} (per second)")
+        if "distribution" in file and "control_mode" in file:
+            results.append({
+                "name": file["exp_name"],
+                "vibration_cost_per_sample": round(cost_per_sample, 4),
+                "vibration_cost_per_second": round(cost_per_second, 4),
+                "distribution": file["distribution"],
+                "control_mode": file["control_mode"],
+            })
+    
+    distribution_vs_vibration(results)
 
-        results.append({
-            "name": file["exp_name"],
-            "vibration_cost_per_sample": round(cost_per_sample, 4),
-            "vibration_cost_per_second": round(cost_per_second, 4),
-        })
-
-    # print(results)

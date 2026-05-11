@@ -15,7 +15,7 @@ Data is written incrementally (flushed every 100 joint samples) to prevent
 data loss if the script is interrupted.
 
 Usage:
-    python3 collect_joint_and_imu_data.py 192.168.80.3 --experiment_name incline_flat_stack_center_8kg_NPA --output_dir /home/nerve/Desktop/data_collected/incline_flat_Apr_27
+    python3 collect_joint_and_imu_data.py 192.168.80.3 --experiment_name incline_crossover_center_crate_water_8kg_PA --output_dir /home/nerve/Desktop/data_collected/Incline_crossover_May_11
 
 
 The script will:
