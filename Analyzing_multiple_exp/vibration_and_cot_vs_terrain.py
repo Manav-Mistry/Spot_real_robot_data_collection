@@ -31,7 +31,7 @@ def plot_vibration_vs_terrain(results_sand, results_water):
     def _xy(results):
         sorted_results = sorted(results, key=lambda r: x_order.get(r["terrain"]))
         x = [x_order[r["terrain"]] for r in sorted_results]
-        y = [r["vibration_cost_per_second"] for r in sorted_results]
+        y = [r["vibration_cost_per_unit_distance"] for r in sorted_results]
         return x, y
 
     fig, ax = plt.subplots(figsize=(8, 5))
@@ -42,7 +42,7 @@ def plot_vibration_vs_terrain(results_sand, results_water):
     ax.set_xticks(range(len(x_axis)))
     ax.set_xticklabels(x_axis)
     ax.set_xlabel("Terrain")
-    ax.set_ylabel("Vibration Cost Per Second (rad/s)")
+    ax.set_ylabel("Vibration Cost Per Unit Distance (rad/m)")
     ax.legend()
     ax.grid(True)
 
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         if "start" in file:
             df = df.iloc[file["start"]: file["end"]]
 
-        cost_per_sample, cost_per_second = compute_vibration_cost(df, limits)
+        cost_per_sample, cost_per_second, cost_per_unit_distance = compute_vibration_cost(df, limits)
         # print(f" sand [{file['exp_name']}] Vibration Cost: {cost_per_sample:.4f} (per sample) | {cost_per_second:.4f} (per second)")
 
         total_distance= find_distance_covered(df)
@@ -103,6 +103,7 @@ if __name__ == "__main__":
             "name": file["exp_name"],
             "vibration_cost_per_sample": round(cost_per_sample, 4),
             "vibration_cost_per_second": round(cost_per_second, 4),
+            "vibration_cost_per_unit_distance": round(cost_per_unit_distance, 4),
             "cot": round(cot_energy, 4),
             "terrain": file["terrain"]
         })
@@ -114,7 +115,7 @@ if __name__ == "__main__":
         if "start" in file:
             df = df.iloc[file["start"]: file["end"]]
 
-        cost_per_sample, cost_per_second = compute_vibration_cost(df, limits)
+        cost_per_sample, cost_per_second, cost_per_unit_distance = compute_vibration_cost(df, limits)
         # print(f"water [{file['exp_name']}] Vibration Cost: {cost_per_sample:.4f} (per sample) | {cost_per_second:.4f} (per second)")
 
         total_distance= find_distance_covered(df)
@@ -126,6 +127,7 @@ if __name__ == "__main__":
             "name": file["exp_name"],
             "vibration_cost_per_sample": round(cost_per_sample, 4),
             "vibration_cost_per_second": round(cost_per_second, 4),
+            "vibration_cost_per_unit_distance": round(cost_per_unit_distance, 4),
             "cot": round(cot_energy, 4),
             "terrain": file["terrain"]
         })

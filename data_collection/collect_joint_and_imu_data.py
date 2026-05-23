@@ -15,7 +15,7 @@ Data is written incrementally (flushed every 100 joint samples) to prevent
 data loss if the script is interrupted.
 
 Usage:
-    python3 collect_joint_and_imu_data.py 192.168.80.3 --experiment_name incline_crossover_center_crate_water_8kg_PA --output_dir /home/nerve/Desktop/data_collected/Incline_crossover_May_11
+    python3 collect_joint_and_imu_data.py 192.168.80.3 --experiment_name incline_continuous_rear_crate_8kg_PA --output_dir /home/nerve/Desktop/data_collected/incline_continuous_May_20
 
 
 The script will:
@@ -214,8 +214,8 @@ def main():
                         time.sleep(0.5)
 
             print(f'Autowalk ended!')
-            print(f'  Joint samples : {joint_count}  → {joints_file}')
-            print(f'  IMU samples   : {imu_count}   → {imu_file}')
+            print(f'  Joint samples : {joint_count}  - {joints_file}')
+            print(f'  IMU samples   : {imu_count}   - {imu_file}')
             break
 
     except KeyboardInterrupt:

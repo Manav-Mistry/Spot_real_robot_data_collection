@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-
-# FILES = [
-   
+# FILES = [ 
 #     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_joints_20260320_125855.csv", "exp_name": "Adj_front_8kg", "start": 500, "end": 10500},
 #     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_joints_20260320_132519.csv", "exp_name": "Adj_center_8kg", "start": 2000, "end": 10700},
 

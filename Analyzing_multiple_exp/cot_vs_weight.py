@@ -83,8 +83,8 @@ if __name__ == "__main__":
         })
 
     # --- plot CoT vs payload (NPA vs PA)
-    payload_weight_NPA = [result["payload"]-33.8-5.6 for result in results_NPA]
-    payload_weight_PA  = [result["payload"]-33.8-5.6 for result in results_PA]
+    payload_weight_NPA = [result["payload"]-33.8-(0 if result["name"] == "baseline" else 5.6) for result in results_NPA]
+    payload_weight_PA  = [result["payload"]-33.8-(0 if result["name"] == "baseline" else 5.6) for result in results_PA]
 
     CoT_PA  = [result["cot"] for result in results_PA]
     CoT_NPA = [result["cot"] for result in results_NPA]
