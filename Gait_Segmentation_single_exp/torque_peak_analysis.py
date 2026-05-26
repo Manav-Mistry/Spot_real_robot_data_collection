@@ -2,20 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-# FILES = [ 
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_joints_20260320_125855.csv", "exp_name": "Adj_front_8kg", "start": 500, "end": 10500},
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_joints_20260320_132519.csv", "exp_name": "Adj_center_8kg", "start": 2000, "end": 10700},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_center/double_tier_center_8kg_NPA_loop3_joints_20260320_162856.csv", "exp_name": "Stack_center_8kg", "start": 1500, "end": 10000},
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_front/double_tier_front_8kg_NPA_loop3_joints_20260320_151917.csv", "exp_name": "Stack_front_8kg", "start": 2000, "end": 12000},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/front_rear/single_tier_front_rear_8kg_NPA_loop3_joints_20260320_143151.csv", "exp_name": "front_rear_8kg", "start": 1600, "end": 10600},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_centercrate_m_8kg/exp1/flat_centercrate_m_8kg_exp1_joints.csv", "exp_name": "center_crate_8kg", "start": 2000, "end": 10500},
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_frontcrate_m_8kg/exp1/flat_frontcrate_m_8kg_exp1_joints.csv", "exp_name": "front_crate_8kg", "start": 1500, "end": 11000},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline", "start": 11240, "end": 19700}, 
-# ]
+from gait_segmentation import segment_gait_cycles
 
 FILES = [
     {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8}, 
@@ -25,7 +12,6 @@ FILES = [
 
 ]
 
-DOWN_SAMPLE    = 10       # joints data is already at lower frequency than IMU
 JOINTS_FS      = 333     # Hz
 REFERENCE_FOOT = "fl"   # foot used to define gait cycle boundaries
 
@@ -37,41 +23,23 @@ TORQUE_COLS  = [f"{leg}.{joint}_load"    for leg in LEGS for joint in JOINTS]
 CONTACT_COLS = [f"contact_{leg}"         for leg in LEGS]
 
 STANCE_VALUE    = 1    # 1 = foot on ground, 2 = foot in air
-MAX_CYCLE_LEN   = 50   # rows after downsampling (= 500 rows at 333Hz / 10)
+MAX_CYCLE_LEN   = 500  # rows at 333Hz (~1.5s), filters out standing-still periods
 
 
 # --- helper functions --------------------------------------------------------
 
-def load_and_downsample(file_path, downsample, max_samples=None, start=None, end=None):
+def load_csv(file_path, start=None, end=None):
     df = pd.read_csv(file_path)
     if start is not None or end is not None:
         df = df.iloc[start:end]
-    df = df[::downsample]
-    if max_samples is not None:
-        df = df[:max_samples]
     return df.reset_index(drop=True)
 
 
-def detect_gait_cycles(contact_series, stance_value=STANCE_VALUE, max_cycle_len=MAX_CYCLE_LEN):
-    """Return indices of touchdowns (swing->stance transitions) for one foot."""
-    contact = contact_series.values
-    touchdowns = np.where(
-        (contact[:-1] != stance_value) & (contact[1:] == stance_value)
-    )[0] + 1
-
-    if max_cycle_len is not None:
-        cycle_lengths = np.diff(touchdowns)
-        valid_mask = np.concatenate([cycle_lengths <= max_cycle_len, [True]])
-        touchdowns = touchdowns[valid_mask]
-
-    return touchdowns
-
-
-def extract_peak_torques(df, cycle_boundaries, torque_cols=TORQUE_COLS):
+def extract_peak_torques(df, cycles, torque_cols=TORQUE_COLS):
    
     peaks = {col: [] for col in torque_cols}
-    for i in range(len(cycle_boundaries) - 1):
-        start, end = cycle_boundaries[i], cycle_boundaries[i + 1]
+    for start, end in cycles:
+        # start, end = cycle_boundaries[i], cycle_boundaries[i + 1]
         segment = df.iloc[start:end]
         for col in torque_cols:
             peaks[col].append(np.max(np.abs(segment[col].values)))
@@ -108,18 +76,14 @@ def verify_cycles_detected(df, cycle_boundaries, exp_name):
 
 results = []
 for file in FILES:
-    if "start" in file:
-        df = load_and_downsample(file["data_file"], DOWN_SAMPLE, start=file.get("start"), end=file.get("end"))
-    else:
-        df = load_and_downsample(file["data_file"], DOWN_SAMPLE, start=None, end=None)
+    df = load_csv(file["data_file"], start=file.get("start"), end=file.get("end"))
 
+    cycles = segment_gait_cycles(df, max_cycle_len=MAX_CYCLE_LEN)
 
-    contact_col = f"contact_{REFERENCE_FOOT}"
-    cycle_boundaries = detect_gait_cycles(df[contact_col])
-    n_cycles = len(cycle_boundaries) - 1
+    n_cycles = len(cycles)
     print(f"{file['exp_name']}: {n_cycles} gait cycles detected")
 
-    peaks = extract_peak_torques(df, cycle_boundaries)
+    peaks = extract_peak_torques(df, cycles)
     # verify_cycles_detected(df, cycle_boundaries, file["exp_name"])
     # mpt   = mean_peak_torque(peaks)
     rms_pt = rms_peak_torque(peaks)

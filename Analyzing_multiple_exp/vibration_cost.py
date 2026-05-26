@@ -29,28 +29,28 @@ BASELINE_FILE = "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without
 
 FILES = [
     # All NPA
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline_incline_flat", "mass": 33.8},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline_incline_flat", "mass": 33.8, "loop": 3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_joints_20260413_140451.csv", "exp_name": "Front Crate NPA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "NPA", "position": "front"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_joints_20260413_142042.csv", "exp_name": "Center Crate NPA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "NPA", "position": "center"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_joints_20260413_140451.csv", "exp_name": "Front Crate NPA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "NPA", "position": "front", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_joints_20260413_142042.csv", "exp_name": "Center Crate NPA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "NPA", "position": "center", "loop": 3},
 
     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/rear_crate_NPA/incline_flat_8kg_rear_crate_NPA_joints_20260413_142659.csv", "exp_name": "Rear Crate NPA"},
     
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_joints_20260413_152852.csv", "exp_name": "Stack Front NPA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "NPA", "position": "front"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_NPA/incline_flat_stack_center_8kg_NPA_joints_20260428_132539.csv", "exp_name": "Stack Center NPA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "NPA", "position": "center"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_joints_20260413_152852.csv", "exp_name": "Stack Front NPA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "NPA", "position": "front", "loop": 1},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_NPA/incline_flat_stack_center_8kg_NPA_joints_20260428_132539.csv", "exp_name": "Stack Center NPA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "NPA", "position": "center", "loop": 3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent Center NPA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "NPA", "position": "center"},
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_crossover_May_11/water_center_crate_8kg_NPA/incline_crossover_center_crate_water_8kg_NPA_joints_20260511_164738.csv", "exp_name": "Center Crate NPA Water", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "NPA", "position": "center"},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent Center NPA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "NPA", "position": "center", "loop": 3},
+    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_crossover_May_11/water_center_crate_8kg_NPA/incline_crossover_center_crate_water_8kg_NPA_joints_20260511_164738.csv", "exp_name": "Center Crate NPA Water", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "NPA", "position": "center", "loop": 3},
 
     # All PA
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_joints_20260413_150510.csv", "exp_name": "Front Crate PA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "PA", "position": "front"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_joints_20260413_144946.csv", "exp_name": "Center Crate PA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "PA", "position": "center"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_joints_20260413_150510.csv", "exp_name": "Front Crate PA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "PA", "position": "front", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_joints_20260413_144946.csv", "exp_name": "Center Crate PA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "PA", "position": "center", "loop": 3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_joints_20260413_153830.csv", "exp_name": "Stack Front PA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "PA" , "position": "front"},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_PA/incline_flat_stack_center_8kg_PA_joints_20260428_131820.csv", "exp_name": "Stack Center PA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "PA", "position": "center"},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_joints_20260413_153830.csv", "exp_name": "Stack Front PA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "PA" , "position": "front", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_PA/incline_flat_stack_center_8kg_PA_joints_20260428_131820.csv", "exp_name": "Stack Center PA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "PA", "position": "center", "loop": 3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent Center PA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "PA", "position": "center"},
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_crossover_May_11/water_center_crate_8kg_PA/incline_crossover_center_crate_water_8kg_PA_joints_20260511_165320.csv", "exp_name": "Center Crate PA Water", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "PA", "position": "center"},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent Center PA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "PA", "position": "center", "loop": 3},
+    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_crossover_May_11/water_center_crate_8kg_PA/incline_crossover_center_crate_water_8kg_PA_joints_20260511_165320.csv", "exp_name": "Center Crate PA Water", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "PA", "position": "center", "loop": 3},
 
 ]
 
@@ -102,7 +102,7 @@ def compute_vibration_cost(df, limits):
         above = np.where(positions > upper, np.abs(positions - upper), 0.0)
         total_cost += (below + above).sum()
 
-    return total_cost / n_samples, total_cost / duration_s, total_cost / distance_covered
+    return total_cost , total_cost / duration_s, total_cost / distance_covered
 
 
 def distribution_vs_vibration(results):
@@ -121,7 +121,7 @@ def distribution_vs_vibration(results):
 
         key = f"{position}_{result['control_mode']}"
         if key in series:
-            series[key][dist_type] = result["vibration_cost_per_unit_distance"]
+            series[key][dist_type] = result["vibration_cost"] / result["loop"]
 
     def _xy(key):
         pts = series[key]
@@ -138,11 +138,20 @@ def distribution_vs_vibration(results):
     ax.set_xticks(range(len(dist_order)))
     ax.set_xticklabels(dist_order)
     ax.set_xlabel("Distribution")
-    ax.set_ylabel("Vibration Cost Per Unit Distance (rad/m)")
+    ax.set_ylabel("Vibration Cost (per trial)")
     ax.legend()
     ax.grid(True)
 
     fig.suptitle("")
+
+    ax.axhline(y=2031, color="grey", linestyle='-', linewidth=1.0)
+    ax.annotate('Baseline', 
+            xy=(1.4, 2031), 
+            xytext=(1.5, 3000),
+            arrowprops=dict(facecolor='black', shrink=0.005),
+            fontsize=10,
+            color='black')
+    
     plt.tight_layout()
     plt.savefig("vibration_cost.png", dpi=300, bbox_inches='tight')
     plt.show()
@@ -160,17 +169,19 @@ if __name__ == "__main__":
         if "start" in file:
             df = df.iloc[file["start"]: file["end"]]
 
-        cost_per_sample, cost_per_second, cost_per_unit_distance = compute_vibration_cost(df, limits)
-        print(f"[{file['exp_name']}] Vibration Cost per unit distance: {cost_per_unit_distance:.4f} (per unit distance) | {cost_per_second:.4f} (per second)")
+        cost, cost_per_second, cost_per_unit_distance = compute_vibration_cost(df, limits)
+        print(f"[{file['exp_name']}] Vibration Cost : {cost:.4f}")
         if "distribution" in file and "control_mode" in file:
             results.append({
                 "name": file["exp_name"],
-                "vibration_cost_per_sample": round(cost_per_sample, 4),
+                "vibration_cost": round(cost, 4),
                 "vibration_cost_per_second": round(cost_per_second, 4),
                 "vibration_cost_per_unit_distance": round(cost_per_unit_distance, 4),
                 "distribution": file["distribution"],
                 "control_mode": file["control_mode"],
+                "loop": file["loop"]
             })
+
     
     # distribution_vs_vibration(results)
 
