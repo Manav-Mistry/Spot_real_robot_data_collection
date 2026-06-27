@@ -1,9 +1,5 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
-from matplotlib.cm import ScalarMappable
-from matplotlib.colors import Normalize
 
 
 # FILES = [
@@ -27,7 +23,7 @@ from matplotlib.colors import Normalize
 # ]
 
 FILES = [
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_continuous_May_20/front_crate_8kg_PA/incline_continuous_front_crate_8kg_PA_joints_20260520_122401.csv", "exp_name": "front_crate_incline_continuous", "mass": 33.8}, 
     # {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8. + 5.6}, 
     # {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_PA/incline_flat_12kg_adj_center_PA_joints_20260426_160040.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12. + 5.6}, 
     # {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_PA/incline_flat_14kg_adj_center_PA_joints_20260426_171228.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14. + 5.6}, 
@@ -58,23 +54,48 @@ for file in FILES:
     })
 
 
+# for result in results:
+#     fig, ax = plt.subplots(1, 1, figsize=(3, 6))
+
+#     x = result["x"].to_numpy()
+#     y = result["y"].to_numpy()
+#     z = result["z"].to_numpy()
+
+#     points = np.array([x, y]).T.reshape(-1, 1, 2)
+#     segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+#     norm = Normalize(vmin=z.min(), vmax=z.max())
+#     lc = LineCollection(segments, cmap="plasma", norm=norm, linewidth=1.5)
+#     lc.set_array(z[:-1])
+#     ax.add_collection(lc)
+
+#     cbar = fig.colorbar(ScalarMappable(norm=norm, cmap="plasma"), ax=ax)
+#     cbar.set_label("Z position (m)")
+
+#     ax.scatter(x[0], y[0], color="green", s=80, zorder=5)
+#     ax.annotate("Start", (x[0], y[0]), textcoords="offset points", xytext=(6, 6), fontsize=9, color="green")
+
+#     ax.scatter(x[-1], y[-1], color="red", s=80, zorder=5)
+#     ax.annotate("End", (x[-1], y[-1]), textcoords="offset points", xytext=(6, 6), fontsize=9, color="red")
+
+#     ax.set_title(result["name"])
+#     ax.set_xlabel("X position (m)")
+#     ax.set_ylabel("Y position (m)")
+#     ax.set_aspect("equal")
+#     ax.autoscale()
+#     ax.grid(True)
+
+#     plt.tight_layout()
+
+
 for result in results:
-    fig, ax = plt.subplots(1, 1, figsize=(7, 6))
+    fig, ax = plt.subplots(1, 1, figsize=(3, 6))
 
     x = result["x"].to_numpy()
     y = result["y"].to_numpy()
-    z = result["z"].to_numpy()
 
-    points = np.array([x, y]).T.reshape(-1, 1, 2)
-    segments = np.concatenate([points[:-1], points[1:]], axis=1)
-
-    norm = Normalize(vmin=z.min(), vmax=z.max())
-    lc = LineCollection(segments, cmap="plasma", norm=norm, linewidth=1.5)
-    lc.set_array(z[:-1])
-    ax.add_collection(lc)
-
-    cbar = fig.colorbar(ScalarMappable(norm=norm, cmap="plasma"), ax=ax)
-    cbar.set_label("Z position (m)")
+    ax.plot(x, y, color="steelblue", linewidth=1.5)
+    # ax.scatter(x[::200], y[::200], color="grey", s=20, zorder=5)
 
     ax.scatter(x[0], y[0], color="green", s=80, zorder=5)
     ax.annotate("Start", (x[0], y[0]), textcoords="offset points", xytext=(6, 6), fontsize=9, color="green")

@@ -7,7 +7,8 @@ FILES_NPA = [
     {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/baseline_incline_flat/incline_flat_baseline_joints_20260426_172759.csv", "exp_name": "baseline", "mass": 33.8, "loop": 3}, 
     {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent_center_8kg", "mass": 33.8 + 8. + 5.6, "loop": 3}, 
     {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_12kg_NPA/incline_flat_12kg_adj_center_NPA_joints_20260426_155231.csv", "exp_name": "Adjacent_center_12kg", "mass": 33.8 + 12. + 5.6, "loop": 3}, 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_NPA/incline_flat_14kg_adj_center_NPA_joints_20260426_171621.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14. + 5.6, "loop": 3}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_14kg_NPA/incline_flat_14kg_adj_center_NPA_joints_20260426_171621.csv", "exp_name": "Adjacent_center_14kg", "mass": 33.8 + 14. + 5.6, "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_June_11/adjacent_center_16kg/incline_flat_adjacent_center_16kg_NPA_joints_20260611_161943.csv", "exp_name": "Adjacent_center_16kg", "mass": 33.8 + 16 + 5.6, "loop": 3} 
 ]
 
 FILES_PA = [
@@ -84,8 +85,8 @@ if __name__ == "__main__":
         })
 
     # --- plot CoT vs payload (NPA vs PA)
-    payload_weight_NPA = [result["payload"]-33.8-(0 if result["name"] == "baseline" else 5.6) for result in results_NPA]
-    payload_weight_PA  = [result["payload"]-33.8-(0 if result["name"] == "baseline" else 5.6) for result in results_PA]
+    payload_weight_NPA = [result["payload"]-33.8 for result in results_NPA]
+    payload_weight_PA  = [result["payload"]-33.8 for result in results_PA]
 
     CoT_PA  = [result["cot"] for result in results_PA]
     CoT_NPA = [result["cot"] for result in results_NPA]
@@ -103,7 +104,7 @@ if __name__ == "__main__":
     axe[1].set_ylabel("Mechanical Energy (J)")
 
     fig.legend(*axe[0].get_legend_handles_labels(), loc="upper right",
-               bbox_to_anchor=(0.98, 0.90), borderpad=0.8)
+               bbox_to_anchor=(0.98, 0.80), borderpad=0.8)
 
     axe[0].grid(True)
     axe[1].grid(True)
@@ -113,7 +114,7 @@ if __name__ == "__main__":
     axe[1].set_xticks(payload_weight_PA)
     # axe[2].set_xticks(payload_weight_PA)
     axe[0].tick_params(labelbottom=False)
-    axe[1].tick_params(labelbottom=False)
+    # axe[1].tick_params(labelbottom=False)
 
     fig.supxlabel("Payload Weight (kg)")
 

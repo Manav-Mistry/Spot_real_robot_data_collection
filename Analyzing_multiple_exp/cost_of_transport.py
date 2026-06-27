@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 
 # ALL FLAT TERRAIN NPA EXPERIMENTS 
-# FILES = [
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline", "mass": 33.8}, 
+FILES = [
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_joints_20260331_111335.csv", "exp_name": "baseline", "mass": 33.8, "loop": 3}, 
    
 #     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_joints_20260320_125855.csv", "exp_name": "Adjacent Front", "mass": 33.8+ 13.6},
 #     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_joints_20260320_132519.csv", "exp_name": "Adjacent Center", "mass": 33.8+ 13.6},
@@ -20,7 +20,7 @@ import numpy as np
 #     {"data_file": "/home/nerve/Desktop/data_collected/flat_Apr_7/water_center/water_center_8kg_joints_20260407_195525.csv", "exp_name": "Water, Center Crate", "mass": 33.8+ 11.6},
 #     {"data_file": "/home/nerve/Desktop/data_collected/flat_Apr_7/water_front/water_front_8kg_joints_20260407_200509.csv", "exp_name": "Water, Front Crate", "mass": 33.8+ 11.6},
 
-# ]
+]
 
 # INCLINE FLAT TERRAIN  EXPERIMENTS
 
@@ -36,8 +36,11 @@ FILES = [
     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_joints_20260413_152852.csv", "exp_name": "Stack Front NPA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "NPA", "position": "front", "loop": 1},
     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_NPA/incline_flat_stack_center_8kg_NPA_joints_20260428_132539.csv", "exp_name": "Stack Center NPA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "NPA", "position": "center", "loop": 3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent Center NPA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "NPA", "position": "center", "loop": 3},
-
+    # {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_NPA/incline_flat_8kg_adj_center_NPA_joints_20260426_145657.csv", "exp_name": "Adjacent Center NPA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "NPA", "position": "center", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_June_1/adjacent_front_total_11.6kg_NPA/incline_flat_adjacent_front_T_11.6kg_NPA_joints_20260601_171816.csv", "exp_name": "Adjacent Front NPA", "mass": 33.8+11.6, "distribution": "Adjacent Front", "control_mode": "NPA", "position": "front", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_June_1/adjacent_center_total_11.6kg_NPA/incline_flat_adjacent_center_T_11.6kg_NPA_joints_20260601_165852.csv", "exp_name": "Adjacent Center NPA", "mass": 33.8+11.6, "distribution": "Adjacent Center", "control_mode": "NPA", "position": "center", "loop": 3},
+    
+    
     # All PA
     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_joints_20260413_150510.csv", "exp_name": "Front Crate PA", "mass": 33.8+11.6, "distribution": "Front", "control_mode": "PA", "position": "front", "loop": 3},
     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_joints_20260413_144946.csv", "exp_name": "Center Crate PA", "mass": 33.8+11.6, "distribution": "Center", "control_mode": "PA", "position": "center", "loop": 3},
@@ -45,11 +48,16 @@ FILES = [
     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_joints_20260413_153830.csv", "exp_name": "Stack Front PA", "mass": 33.8+11.6, "distribution": "Stack Front", "control_mode": "PA" , "position": "front", "loop": 3},
     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_8kg_PA/incline_flat_stack_center_8kg_PA_joints_20260428_131820.csv", "exp_name": "Stack Center PA", "mass": 33.8+11.6, "distribution": "Stack Center", "control_mode": "PA", "position": "center", "loop": 3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent Center PA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "PA", "position": "center", "loop": 3},
+    # {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_Apr_26/adj_center_8kg_PA/incline_flat_8kg_adj_center_PA_joints_20260426_150208.csv", "exp_name": "Adjacent Center PA", "mass": 33.8+13.6, "distribution": "Adjacent Center", "control_mode": "PA", "position": "center", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_June_1/adjacent_front_total_11.6kg_PA/incline_flat_adjacent_front_T_11.6kg_PA_joints_20260601_172156.csv", "exp_name": "Adjacent Front PA", "mass": 33.8+11.6, "distribution": "Adjacent Front", "control_mode": "PA", "position": "front", "loop": 3},
+    {"data_file": "/home/nerve/Desktop/data_collected/incline_flat_June_1/adjacent_center_total_11.6kg_PA/incline_flat_adjacent_center_T_11.6kg_PA_joints_20260601_170722.csv", "exp_name": "Adjacent Center PA", "mass": 33.8+11.6, "distribution": "Adjacent Center", "control_mode": "PA", "position": "center", "loop": 3},
+    
 ]
 
-BASELINE_DISTANCE = 45.7          # metres measured from baseline trajectory (3 loops)
-DISTANCE_PER_LOOP = BASELINE_DISTANCE / 3
+BASELINE_DISTANCE_INCLINE = 46.7          # meters measured from baseline trajectory (3 loops)
+BASELINE_DISTANCE_FLAT = 43.5
+
+DISTANCE_PER_LOOP = BASELINE_DISTANCE_INCLINE / 3
 
 LEGS   = ["fl", "fr", "hl", "hr"]
 JOINTS = ["hx", "hy", "kn"]
@@ -70,11 +78,13 @@ def compute_power(df):
 def find_distance_covered(df):
     pos_x = df["vision_tform_body_pos_x"].to_numpy()
     pos_y = df["vision_tform_body_pos_y"].to_numpy()
+    pos_z = df["vision_tform_body_pos_z"].to_numpy()
 
     dx = np.diff(pos_x)
     dy = np.diff(pos_y)
+    dz = np.diff(pos_z)
 
-    step_distances = np.sqrt(dx*dx + dy*dy)
+    step_distances = np.sqrt(dx*dx + dy*dy + dz*dz)
 
     total_distance = np.sum(step_distances)
     total_time = len(step_distances) / FS
@@ -158,9 +168,9 @@ def cot_comparison_plot(results_detailed):
 
     fig, ax = plt.subplots(figsize=(8, 5))
 
-    ax.plot(*_xy("Front_NPA"),  "-o",  color="black",   label="Front_NPA")
+    ax.plot(*_xy("Front_NPA"),  "-o",  color="black",   label="Front_PU")
     ax.plot(*_xy("Front_PA"),   "--o", color="black",   label="Front_PA")
-    ax.plot(*_xy("Center_NPA"), "-s",  color="red", label="Center_NPA")
+    ax.plot(*_xy("Center_NPA"), "-s",  color="red", label="Center_PU")
     ax.plot(*_xy("Center_PA"),  "--s", color="red", label="Center_PA")
 
     ax.set_xticks(range(len(dist_order)))
@@ -207,16 +217,16 @@ def energy_comparison_plot(results_detailed):
 
     fig, ax = plt.subplots(figsize=(8, 5))
 
-    ax.plot(*_xy("Front_NPA"),  "-o",  color="black",   label="Front_NPA")
+    ax.plot(*_xy("Front_NPA"),  "-o",  color="black",   label="Front_PU")
     ax.plot(*_xy("Front_PA"),   "--o", color="black",   label="Front_PA")
-    ax.plot(*_xy("Center_NPA"), "-s",  color="red", label="Center_NPA")
+    ax.plot(*_xy("Center_NPA"), "-s",  color="red", label="Center_PU")
     ax.plot(*_xy("Center_PA"),  "--s", color="red", label="Center_PA")
 
     ax.set_xticks(range(len(dist_order)))
-    ax.set_xticklabels(dist_order)
-    ax.set_xlabel("Distribution")
-    ax.set_ylabel("Mechanical Energy Consumption (per trial)")
-    ax.legend()
+    ax.set_xticklabels(dist_order, fontsize=14)
+    # ax.set_xlabel("Distribution")
+    ax.set_ylabel("Mechanical Energy Consumption (J/trial)", fontsize=12)
+    ax.legend(fontsize=14)
     ax.grid(True)
 
     # fig.suptitle("CoT by Distribution and Payload Position\nIncline Flat")
@@ -248,6 +258,7 @@ if __name__ == "__main__":
             df = df.iloc[start: end]
         
         total_distance = file["loop"] * DISTANCE_PER_LOOP
+        print(file["exp_name"], find_distance_covered(df))
         
         print(f"[{file['exp_name']}] , distance: {total_distance:.3f} m")
         total_energy = compute_power(df)

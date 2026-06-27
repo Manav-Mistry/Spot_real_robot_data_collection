@@ -55,7 +55,8 @@ FILES = [
 ]
 
 LEGS   = ["fl", "fr", "hl", "hr"]
-JOINTS = ["hx", "hy", "kn"]
+# JOINTS = ["hx", "hy", "kn"]
+JOINTS = ["hx"]
 
 JOINT_POS_COLS = [f"{leg}.{joint}_position" for leg in LEGS for joint in JOINTS]
 
@@ -183,5 +184,5 @@ if __name__ == "__main__":
             })
 
     
-    # distribution_vs_vibration(results)
+    distribution_vs_vibration(results)
 

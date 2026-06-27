@@ -4,43 +4,43 @@ import pandas as pd
 import numpy as np
 
 
-# FILES = [
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_imu_20260320_125855.csv", "exp_name": "Adj_front_8kg", "start": 500*3, "end": 10500*3},
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_imu_20260320_132519.csv", "exp_name": "Adj_center_8kg", "start": 2000*3, "end": 10700*3},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_center/double_tier_center_8kg_NPA_loop3_imu_20260320_162856.csv", "exp_name": "Stack_center_8kg", "start": 1500*3, "end": 10000*3},
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_front/double_tier_front_8kg_NPA_loop3_imu_20260320_151917.csv", "exp_name": "Stack_front_8kg", "start": 2000*3, "end": 12000*3},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/front_rear/single_tier_front_rear_8kg_NPA_loop3_imu_20260320_143151.csv", "exp_name": "front_rear_8kg", "start": 1600*3, "end": 10600*3},
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_centercrate_m_8kg/exp1/flat_centercrate_m_8kg_exp1_imu.csv", "exp_name": "center_crate_8kg", "start": 2000*3, "end": 10500*3},
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_frontcrate_m_8kg/exp1/flat_frontcrate_m_8kg_exp1_imu.csv", "exp_name": "front_crate_8kg", "start": 1500*3, "end": 11000*3},
-
-#     # {"data_file": "", "exp_name": "baseline", "start": , "end": },
-
-#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_imu_20260331_111335.csv", "exp_name": "baseline", "start": 11240*3, "end": 19700*3}, 
-
-# ]
-
 FILES = [
-    # All NPA
-    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_imu_20260331_111335.csv", "exp_name": "baseline", "mass": 33.8}, 
-   
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_imu_20260413_140451.csv", "exp_name": "Front  Crate NPA", "mass": 33.8+ 11.6},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_imu_20260413_142042.csv", "exp_name": "Center Crate NPA", "mass": 33.8+ 11.6},
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/front/adj_single_tier_front_8kg_NPA_loop3_imu_20260320_125855.csv", "exp_name": "Adj_front_8kg", "start": 500*3, "end": 10500*3},
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/Adjacent/center/adj_single_tier_center_8kg_NPA_loop3_imu_20260320_132519.csv", "exp_name": "Adj_center_8kg", "start": 2000*3, "end": 10700*3},
 
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/rear_crate_NPA/incline_flat_8kg_rear_crate_NPA_imu_20260413_142659.csv", "exp_name": "Rear Crate NPA", "mass": 33.8+ 11.6},
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_imu_20260413_152852.csv", "exp_name": "Stack Front NPA", "mass": 33.8+ 11.6}, 
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_center/double_tier_center_8kg_NPA_loop3_imu_20260320_162856.csv", "exp_name": "Stack_center_8kg", "start": 1500*3, "end": 10000*3},
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/stacking/stack_front/double_tier_front_8kg_NPA_loop3_imu_20260320_151917.csv", "exp_name": "Stack_front_8kg", "start": 2000*3, "end": 12000*3},
 
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_NPA/incline_flat_8kg_stack_center_crate_NPA_imu_20260413_155829.csv", "exp_name": "Stack Center NPA", "mass": 33.8+ 11.6},
+    # {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/front_rear/single_tier_front_rear_8kg_NPA_loop3_imu_20260320_143151.csv", "exp_name": "front_rear_8kg", "start": 1600*3, "end": 10600*3},
 
-    # All PA
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_imu_20260413_150510.csv", "exp_name": "Front Crate PA", "mass": 33.8 + 11.6},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_imu_20260413_144946.csv", "exp_name": "Center Crate PA", "mass": 33.8 + 11.6},
-    # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_imu_20260413_153830.csv", "exp_name": "Stack Front PA", "mass": 33.8 + 11.6},
-    {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_PA/incline_flat_8kg_stack_center_crate_PA_imu_20260413_160240.csv", "exp_name": "Stack Center PA", "mass": 33.8 + 11.6},
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_centercrate_m_8kg/exp1/flat_centercrate_m_8kg_exp1_imu.csv", "exp_name": "center_crate_8kg", "start": 2000*3, "end": 10500*3},
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Feb21/flat_frontcrate_m_8kg/exp1/flat_frontcrate_m_8kg_exp1_imu.csv", "exp_name": "front_crate_8kg", "start": 1500*3, "end": 11000*3},
+
+    # {"data_file": "", "exp_name": "baseline", "start": , "end": },
+
+    {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_imu_20260331_111335.csv", "exp_name": "baseline", "start": 11240*3, "end": 19700*3}, 
 
 ]
+
+# FILES = [
+#     # All NPA
+#     {"data_file": "/home/nerve/Desktop/data_collected/flat_Mar_20/baseline_without_rail/baseline_loop3_imu_20260331_111335.csv", "exp_name": "baseline", "mass": 33.8}, 
+   
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_NPA/incline_flat_8kg_front_crate_NPA_imu_20260413_140451.csv", "exp_name": "Front  Crate NPA", "mass": 33.8+ 11.6},
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_NPA/incline_flat_8kg_center_crate_NPA_imu_20260413_142042.csv", "exp_name": "Center Crate NPA", "mass": 33.8+ 11.6},
+
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/rear_crate_NPA/incline_flat_8kg_rear_crate_NPA_imu_20260413_142659.csv", "exp_name": "Rear Crate NPA", "mass": 33.8+ 11.6},
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_NPA/incline_flat_8kg_stack_front_crate_NPA_imu_20260413_152852.csv", "exp_name": "Stack Front NPA", "mass": 33.8+ 11.6}, 
+
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_NPA/incline_flat_8kg_stack_center_crate_NPA_imu_20260413_155829.csv", "exp_name": "Stack Center NPA", "mass": 33.8+ 11.6},
+
+#     # All PA
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/front_crate_PA/incline_flat_8kg_front_crate_PA_imu_20260413_150510.csv", "exp_name": "Front Crate PA", "mass": 33.8 + 11.6},
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/center_crate_PA/incline_flat_8kg_center_crate_PA_imu_20260413_144946.csv", "exp_name": "Center Crate PA", "mass": 33.8 + 11.6},
+#     # {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_front_PA/incline_flat_8kg_stack_front_crate_PA_imu_20260413_153830.csv", "exp_name": "Stack Front PA", "mass": 33.8 + 11.6},
+#     {"data_file": "/home/nerve/Desktop/data_collected/Incline_flat_Apr_13/stack_center_PA/incline_flat_8kg_stack_center_crate_PA_imu_20260413_160240.csv", "exp_name": "Stack Center PA", "mass": 33.8 + 11.6},
+
+# ]
 
 DOWN_SAMPLE = 20
 CUTOFF_HZ = 10.0   # must be < Nyquist (fs/2); keep < fs/2 when changing DOWN_SAMPLE
@@ -115,7 +115,7 @@ for file in FILES:
     jerk_linear     = {col: compute_jerk(filtered[col],      fs) for col in ACCEL_COLS}
     jerk_angular = {col: compute_jerk(filtered_gyro[col], fs) for col in GYRO_COLS}
 
-    rms_linear_jerk      = {col: rms_jerk(jerk_linear[col])      for col in ACCEL_COLS}
+    rms_linear_jerk      = {col: rms_jerk(jerk_linear[col]) for col in ACCEL_COLS}
     rms_angular_jerk = {col: rms_jerk(jerk_angular[col]) for col in GYRO_COLS}
 
     results.append({
@@ -203,7 +203,7 @@ all_values = rms_lin_jerk_x + rms_lin_jerk_y + rms_lin_jerk_z + [baseline_x, bas
 axes[0].set_xlim(min(all_values), max(all_values))
 
 fig.supylabel('Experiments')
-fig.suptitle('Incline Flat [NPA vs PA]')
+# fig.suptitle('Incline Flat [NPA vs PA]')
 
 plt.show()
 
@@ -246,6 +246,6 @@ all_gyro_values = rms_gx + rms_gy + rms_gz + [baseline_gx, baseline_gy, baseline
 axes2[0].set_xlim(min(all_gyro_values), max(all_gyro_values))
 
 fig2.supylabel('Experiments')
-fig2.suptitle('Incline Flat [NPA vs PA]')
+# fig2.suptitle('Incline Flat [NPA vs PA]')
 
 plt.show()

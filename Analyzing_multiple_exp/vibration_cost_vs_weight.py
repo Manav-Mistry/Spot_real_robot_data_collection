@@ -65,8 +65,8 @@ if __name__ == "__main__":
     results_NPA = process_files(FILES_NPA, limits)
     results_PA  = process_files(FILES_PA,  limits)
 
-    payload_NPA = [r["payload"] - 33.8 - (0 if r["name"] == "baseline" else 5.6) for r in results_NPA]
-    payload_PA  = [r["payload"] - 33.8 - (0 if r["name"] == "baseline" else 5.6) for r in results_PA]
+    payload_NPA = [r["payload"] - 33.8 for r in results_NPA]
+    payload_PA  = [r["payload"] - 33.8 for r in results_PA]
 
     vib_NPA = [r["vibration_cost"] for r in results_NPA]
     vib_PA  = [r["vibration_cost"] for r in results_PA]
